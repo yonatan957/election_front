@@ -22,7 +22,7 @@ const fetchLogin = createAsyncThunk('user/login',
                 thunkApi.rejectWithValue("can't login, please try again")
             }
             const data = await res.json();
-            return thunkApi.fulfillWithValue(data)
+            thunkApi.fulfillWithValue(data)
         } catch (error) {
             thunkApi.rejectWithValue("can't login, please try again")
 
@@ -43,7 +43,7 @@ const fetchregister = createAsyncThunk('user/register',
                 thunkApi.rejectWithValue("can't login, please try again")
             }
             const data = await res.json();
-            return thunkApi.fulfillWithValue(data)
+            thunkApi.fulfillWithValue(data)
         } catch (error) {
             thunkApi.rejectWithValue("can't login, please try again")
 
