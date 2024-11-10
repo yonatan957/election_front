@@ -10,7 +10,7 @@ const initialState:candidatesState ={
 }
 
 const fetchcandidates = createAsyncThunk('candidates/getList',
-    async (userData:{userName:string, password:string}, thunkApi) => {
+    async (_, thunkApi) => {
         try {
             const res = await fetch('http://localhost:2222/api/candidates/all')
             if (!res.ok){
@@ -25,7 +25,7 @@ const fetchcandidates = createAsyncThunk('candidates/getList',
     }
 )
 
-const userSlice = createSlice({
+const candidatesSlice = createSlice({
     name:'candidates',
     initialState,
     reducers:{},
@@ -47,3 +47,5 @@ const userSlice = createSlice({
         })
     }
 })
+
+export default candidatesSlice
