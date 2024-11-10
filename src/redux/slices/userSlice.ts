@@ -1,5 +1,6 @@
 import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { DataStatus, userState } from "../../types/redux"
+import { IUser } from "../../types/user"
 
 const initialState:userState ={
     error:null,
@@ -13,15 +14,15 @@ const fetchLogin = createAsyncThunk('user/login',
             const res = await fetch('http://localhost:2222/api/users/login',{
                 method:'POST',
                 headers:{
-                    'Content-Type':'aplication/json'
+                    'Content-Type':'application/json'
                 },
                 body:JSON.stringify(userData)
             })
             if (!res.ok){
                 thunkApi.rejectWithValue("can't login, please try again")
             }
-            const data = res.json();
-            thunkApi.fulfillWithValue(data)
+            const data = await res.json();
+            return thunkApi.fulfillWithValue(data)
         } catch (error) {
             thunkApi.rejectWithValue("can't login, please try again")
 
@@ -41,8 +42,8 @@ const fetchregister = createAsyncThunk('user/register',
             if (!res.ok){
                 thunkApi.rejectWithValue("can't login, please try again")
             }
-            const data = res.json();
-            thunkApi.fulfillWithValue(data)
+            const data = await res.json();
+            return thunkApi.fulfillWithValue(data)
         } catch (error) {
             thunkApi.rejectWithValue("can't login, please try again")
 
@@ -55,6 +56,20 @@ const userSlice = createSlice({
     initialState,
     reducers:{},
     extraReducers:(builder:ActionReducerMapBuilder<userState>)=>{
-        builder.addCase()
+        builder.addCase(fetchLogin.pending, (state, action)=>{
+            state.status = DataStatus.LOADING
+            state.error = null
+            state.user = null
+        })
+        .addCase(fetchLogin.fulfilled, (state, action)=>{
+            state.status = DataStatus.SUCCESS
+            state.error = null
+            state.user = action.payload as unknown as IUser
+        })
+        .addCase(fetchLogin.rejected, (state, action)=>{
+            state.status = DataStatus.FAILED
+            state.error = action.error as string
+            state.user = null
+        })
     }
 })
