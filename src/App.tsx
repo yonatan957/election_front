@@ -1,7 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 import Nav from './components/Nav'
 import { Route, Routes } from 'react-router-dom'
 import Login from './components/auth/Login'
@@ -17,10 +13,9 @@ function App() {
       <Route path='login' element={<Login/>}/>
       <Route path='register' element={<Register/>}/>
       <Route path='vote' element={<Vote/>}/>
-      <Route path='Statistics' element={<Statistics/>}/>
+      <Route path='statistics' element={<Statistics/>}/>
     </Routes>
-  </div>
-  )
+  </div>)
 }
 
 export default App
