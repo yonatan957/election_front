@@ -19,12 +19,13 @@ export const fetchLogin = createAsyncThunk('user/login',
                 body: JSON.stringify(userData),
             });
             if (!res.ok) {
-                return thunkApi.rejectWithValue("can't login, please try again");
+                thunkApi.rejectWithValue("can't login, please try again");
             }
             const data = await res.json();
-            return thunkApi.fulfillWithValue(data);
+            thunkApi.fulfillWithValue(data);
+            return data
         } catch (error) {
-            return thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
+            thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
         }
     }
 );
@@ -40,13 +41,15 @@ export const fetchregister = createAsyncThunk('user/register',
                 body: JSON.stringify(userData),
             });
             if (!res.ok) {
+                console.log(res)
                 return thunkApi.rejectWithValue("can't register, please try again");
             }
             const data = await res.json();
             return thunkApi.fulfillWithValue(data);
+            return data
         } catch (error) {
-            return thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
             console.log(error)
+            return thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
         }
     }
 );

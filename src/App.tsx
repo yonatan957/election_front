@@ -1,5 +1,5 @@
 import Nav from './components/Nav'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import Vote from './components/pages/Vote'
@@ -14,6 +14,7 @@ function App() {
       <Route path='register' element={<Register/>}/>
       <Route path='vote' element={<Vote/>}/>
       <Route path='statistics' element={<Statistics/>}/>
+      <Route path='/' element={<Navigate to={'/votes'}/>}/>
     </Routes>
   </div>)
 }
