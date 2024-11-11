@@ -9,10 +9,17 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const {user} = useAppSelector((state)=> state.user)
   const navigate = useNavigate()
+
   useEffect(()=>{
-    if(!user?._id)return
+    if(!user?._id) return
     navigate('/votes')
-  })
+  },[user])
+
+  useEffect(()=>{
+    if(user?._id){
+      navigate('/votes')
+    }
+  },[])
   return (
     <div>
       <input type="text" placeholder='user name' onChange={(e)=>{setUserName(e.target.value)}} value={userName} />

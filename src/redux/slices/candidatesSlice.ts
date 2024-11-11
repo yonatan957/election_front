@@ -1,6 +1,5 @@
 import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { candidatesState, DataStatus, userState } from "../../types/redux"
-import { IUser } from "../../types/user"
+import { candidatesState, DataStatus } from "../../types/redux"
 import { ICandidate } from "../../types/candidate"
 
 const initialState:candidatesState ={
