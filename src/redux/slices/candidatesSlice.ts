@@ -14,12 +14,12 @@ const fetchcandidates = createAsyncThunk('candidates/getList',
         try {
             const res = await fetch('http://localhost:2222/api/candidates/all')
             if (!res.ok){
-                thunkApi.rejectWithValue("can't login, please try again")
+                return thunkApi.rejectWithValue("can't login, please try again")
             }
             const data = await res.json();
-            thunkApi.fulfillWithValue(data)
+            return thunkApi.fulfillWithValue(data)
         } catch (error) {
-            thunkApi.rejectWithValue("can't login, please try again")
+            return thunkApi.rejectWithValue("can't login, please try again")
 
         }
     }

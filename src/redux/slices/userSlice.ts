@@ -2,76 +2,91 @@ import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from "@reduxjs
 import { DataStatus, userState } from "../../types/redux"
 import { IUser } from "../../types/user"
 
-const initialState:userState ={
-    error:null,
-    status:DataStatus.IDLE,
-    user:null
-}
+const initialState: userState = {
+    error: null,
+    status: DataStatus.IDLE,
+    user: null,
+};
 
-const fetchLogin = createAsyncThunk('user/login',
-    async (userData:{userName:string, password:string}, thunkApi) => {
+export const fetchLogin = createAsyncThunk('user/login',
+    async (userData: { userName: string, password: string }, thunkApi) => {
         try {
-            const res = await fetch('http://localhost:2222/api/users/login',{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
+            const res = await fetch('http://localhost:2222/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                body:JSON.stringify(userData)
-            })
-            if (!res.ok){
-                thunkApi.rejectWithValue("can't login, please try again")
+                body: JSON.stringify(userData),
+            });
+            if (!res.ok) {
+                return thunkApi.rejectWithValue("can't login, please try again");
             }
             const data = await res.json();
-            thunkApi.fulfillWithValue(data)
+            return thunkApi.fulfillWithValue(data);
         } catch (error) {
-            thunkApi.rejectWithValue("can't login, please try again")
-
+            return thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
         }
     }
-)
-const fetchregister = createAsyncThunk('user/register',
-    async (userData:{userName:string, password:string, isAdmin:boolean}, thunkApi) => {
+);
+
+export const fetchregister = createAsyncThunk('user/register',
+    async (userData: { userName: string, password: string, isAdmin: boolean }, thunkApi) => {
         try {
-            const res = await fetch('http://localhost:2222/api/users/register',{
-                method:'POST',
-                headers:{
-                    'Content-Type':'aplication/json'
+            const res = await fetch('http://localhost:2222/api/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                body:JSON.stringify(userData)
-            })
-            if (!res.ok){
-                thunkApi.rejectWithValue("can't login, please try again")
+                body: JSON.stringify(userData),
+            });
+            if (!res.ok) {
+                return thunkApi.rejectWithValue("can't register, please try again");
             }
             const data = await res.json();
-            thunkApi.fulfillWithValue(data)
+            return thunkApi.fulfillWithValue(data);
         } catch (error) {
-            thunkApi.rejectWithValue("can't login, please try again")
-
+            return thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
+            console.log(error)
         }
     }
-)
+);
 
 const userSlice = createSlice({
-    name:'user',
+    name: 'user',
     initialState,
-    reducers:{},
-    extraReducers:(builder:ActionReducerMapBuilder<userState>)=>{
-        builder.addCase(fetchLogin.pending, (state, action)=>{
-            state.status = DataStatus.LOADING
-            state.error = null
-            state.user = null
+    reducers: {},
+    extraReducers: (builder: ActionReducerMapBuilder<userState>) => {
+        builder.addCase(fetchLogin.pending, (state) => {
+            state.status = DataStatus.LOADING;
+            state.error = null;
+            state.user = null;
         })
-        .addCase(fetchLogin.fulfilled, (state, action)=>{
-            state.status = DataStatus.SUCCESS
-            state.error = null
-            state.user = action.payload as unknown as IUser
+        .addCase(fetchLogin.fulfilled, (state, action) => {
+            state.status = DataStatus.SUCCESS;
+            state.error = null;
+            state.user = action.payload as IUser;
         })
-        .addCase(fetchLogin.rejected, (state, action)=>{
-            state.status = DataStatus.FAILED
-            state.error = action.error as string
-            state.user = null
+        .addCase(fetchLogin.rejected, (state, action) => {
+            state.status = DataStatus.FAILED;
+            state.error = action.payload as string;
+            state.user = null;
         })
-    }
-})
+        .addCase(fetchregister.pending, (state) => {
+            state.status = DataStatus.LOADING;
+            state.error = null;
+            state.user = null;
+        })
+        .addCase(fetchregister.fulfilled, (state, action) => {
+            state.status = DataStatus.SUCCESS;
+            state.error = null;
+            state.user = action.payload as IUser;
+        })
+        .addCase(fetchregister.rejected, (state, action) => {
+            state.status = DataStatus.FAILED;
+            state.error = action.payload as string;
+            state.user = null;
+        });
+    },
+});
 
-export default userSlice
+export default userSlice;
