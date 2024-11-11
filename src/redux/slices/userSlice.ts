@@ -1,4 +1,4 @@
-import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { ActionReducerMapBuilder, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { DataStatus, userState } from "../../types/redux"
 import { IUser } from "../../types/user"
 
@@ -23,6 +23,7 @@ export const fetchLogin = createAsyncThunk('user/login',
             }
             const data = await res.json();
             thunkApi.fulfillWithValue(data);
+            localStorage.setItem('token', data.token)
             return data
         } catch (error) {
             thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
@@ -46,7 +47,6 @@ export const fetchregister = createAsyncThunk('user/register',
             }
             const data = await res.json();
             return thunkApi.fulfillWithValue(data);
-            return data
         } catch (error) {
             console.log(error)
             return thunkApi.rejectWithValue(error instanceof Error ? error.message : "Unknown error occurred");
@@ -57,7 +57,11 @@ export const fetchregister = createAsyncThunk('user/register',
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        initUser:(state, action: PayloadAction) => {
+            state.user = null
+        }
+    },
     extraReducers: (builder: ActionReducerMapBuilder<userState>) => {
         builder.addCase(fetchLogin.pending, (state) => {
             state.status = DataStatus.LOADING;

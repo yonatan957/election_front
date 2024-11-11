@@ -8,18 +8,22 @@ const initialState:candidatesState ={
     candidates:null
 }
 
-const fetchcandidates = createAsyncThunk('candidates/getList',
+export const fetchcandidates = createAsyncThunk('candidates/getList',
     async (_, thunkApi) => {
         try {
-            const res = await fetch('http://localhost:2222/api/candidates/all')
+            const res = await fetch('http://localhost:2222/api/candidates/all',{
+                headers:{
+                    "Authorization":localStorage.getItem("token") as string
+                }
+            })
             if (!res.ok){
-                return thunkApi.rejectWithValue("can't login, please try again")
+                thunkApi.rejectWithValue("can't login, please try again")
+                return
             }
             const data = await res.json();
             return thunkApi.fulfillWithValue(data)
         } catch (error) {
-            return thunkApi.rejectWithValue("can't login, please try again")
-
+            thunkApi.rejectWithValue("can't login, please try again")
         }
     }
 )

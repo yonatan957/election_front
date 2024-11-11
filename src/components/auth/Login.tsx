@@ -11,7 +11,7 @@ export default function Login() {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    if(!user?._id) return
+    if(! user?._id) return
     navigate('/votes')
   },[user])
 

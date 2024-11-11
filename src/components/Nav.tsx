@@ -1,16 +1,22 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { RootState, useAppDispatch, useAppSelector } from '../redux/store'
+import { initUser, RootState, useAppDispatch, useAppSelector } from '../redux/store'
+import { useDispatch } from 'react-redux'
 
 export default function Nav() {
-    const user = useAppSelector((state:RootState)=>state.user)
+    const user = useAppSelector((state:RootState)=>state.user.user)
+    const dispatch = useDispatch()
+    const logout = ()=>{
+      localStorage.removeItem("token")
+      dispatch(initUser())
+    }
   return (
     <div className='nav'>
-        {user.user?
+        {user?
         <>
             <NavLink to={'/votes'}>votes</NavLink>
-            {user.user.isAdmin && <NavLink to={'/statistics'}>statistics</NavLink>}
-            <button onClick={()=>{alert("log out sucssefully")}}>log out</button>
+            {user.isAdmin && <NavLink to={'/statistics'}>statistics</NavLink>}
+            <button onClick={logout}>log out</button>
         </>:<>
             <NavLink to={'/login'}>login</NavLink>
             <NavLink to={'/register'}>register</NavLink>

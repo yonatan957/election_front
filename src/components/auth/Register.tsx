@@ -3,15 +3,43 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+  const [userName, setUserName]= useState('');
+  const [password, setPassword]= useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const {user} = useAppSelector((state)=> state.user)
   const navigate = useNavigate()
-
+  const send = async()=>{
+    try {
+      const response = await fetch("http://localhost:2222/api/users/register",{
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+          userName,
+          password,
+          isAdmin
+        })
+      })
+      if(!response.ok)throw new Error("faild to register")
+        else{console.log(await response.json())}
+    } catch (error) {
+      console.log((error as Error).message)
+    }
+  }
   useEffect(()=>{
     if(user?._id){
       navigate('/votes')
     }
   },[])
   return (
-    <div>Register</div>
+    <div>
+      <input type="text" placeholder='user name' onChange={(e)=>{setUserName(e.target.value)}} value={userName} />
+      <input type="password" placeholder='password'  onChange={(e)=>{setPassword(e.target.value)}} value={password}/>
+      <br />
+      <label htmlFor="">Are you Admin?</label>
+      <input type="checkbox" onChange={(e)=>{setIsAdmin(e.target.checked)}}  checked={isAdmin}/>
+      <button onClick={send}>Register</button>
+    </div>
   )
 }
