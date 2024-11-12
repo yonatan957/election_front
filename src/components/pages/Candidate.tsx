@@ -20,7 +20,7 @@ export default function Candidate({candidate}:props) {
           body:JSON.stringify({candidate_id:candidate._id})
         })
         if(!response.ok)throw new Error("faild to vote")
-        socket.emit('newVote',{candidate_id:candidate._id})
+        socket.emit('newVote',{candidate:candidate})
         dispatch(updateVote({hasVoted:true, votedFor:candidate._id}))
       } catch (error) {
         console.log((error as Error).message)
@@ -32,7 +32,7 @@ export default function Candidate({candidate}:props) {
         <img src={candidate.image}/>
         <h4>{candidate.votes}</h4>
         { !user?.hasVoted && <button onClick={vote}>vote</button>}
-        { user?.hasVoted && user?.votedFor== candidate._id ? <p>you vote for me!!!</p>: <p>you didn't vote for me</p>}
+        { user?.hasVoted && user?.votedFor== candidate._id ? <p>you vote me!!!</p>: <p>you didn't vote me</p>}
     </div>
   )
 }

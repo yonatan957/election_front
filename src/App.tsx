@@ -23,11 +23,9 @@ function App() {
   },[])
 
   useEffect(()=>{
-    const handlePublishVote = (candidateid:IaddVote) => {
-      dispatch(addVote(candidateid))
-      const candidate = candidates?.find(c => c._id == candidateid.candidate_id)
-      console.log(candidate, candidates)
-      toast(`someone vote for ${candidate?.name}`)
+    const handlePublishVote = (candidate:IaddVote) => {
+      dispatch(addVote(candidate))
+      toast(`someone vote for ${candidate.candidate.name}`)
     }
   
     socket.on("publishVote", handlePublishVote)
@@ -35,7 +33,7 @@ function App() {
     return () => {
       socket.off("publishVote", handlePublishVote)
     }
-  }, [socket,candidates])
+  }, [candidates])
 
   // socket.on("publishVote", (candidateid)=>{
   //   dispatch(addVote(candidateid))

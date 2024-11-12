@@ -21,7 +21,7 @@ export interface candidatesState {
 }
 
 export interface IaddVote {
-  candidate_id: string;
+  candidate: ICandidate;
 }
 
 export interface updateVote {

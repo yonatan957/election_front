@@ -40,7 +40,7 @@ const candidatesSlice = createSlice({
   reducers: {
     addVote: (state, action: PayloadAction<IaddVote>) => {
       state.candidates?.forEach((c) => {
-        if (c._id === action.payload.candidate_id) {
+        if (c._id === action.payload.candidate._id) {
           c.votes += 1;
         }
       });
