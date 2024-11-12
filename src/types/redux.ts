@@ -14,17 +14,17 @@ export interface userState {
   user: null | IUser;
 }
 
-export interface candidatesState{
-    error: string |null
-    status:DataStatus
-    candidates: ICandidate[] | null
+export interface candidatesState {
+  error: string | null;
+  status: DataStatus;
+  candidates: ICandidate[] | null;
 }
 
-export interface addVote{
-  candidate_id:string
+export interface IaddVote {
+  candidate_id: string;
 }
 
-export interface updateVote{
-  hasVoted:boolean,
-  votedFor:string | null
+export interface updateVote {
+  hasVoted: boolean;
+  votedFor: string | null;
 }

@@ -22,8 +22,11 @@ export default function Register() {
           isAdmin
         })
       })
-      if(!response.ok)throw new Error("faild to register")
-        else{console.log(await response.json())}
+      if(!response.ok){
+        alert("faild to register")
+        throw new Error("faild to register")
+      }
+      navigate('/login')
     } catch (error) {
       console.log((error as Error).message)
     }
