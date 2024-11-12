@@ -1,0 +1,38 @@
+.candidates{
+    height: 92%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10% 3%;
+    gap: 10px;
+}
+.onecandidate{
+    padding: 10px;
+    width: 30%;
+    height: 30%;
+    border-radius: 5px ;
+    border: 1px solid black;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    gap: 10px;
+    color: black;
+}
+img{
+    width: 20%;
+    border: rgb(233, 165, 165) solid 1px;
+}
+.statistics{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+    align-items: center;
+    gap: 15%;
+}
+h1{
+    color: rgb(162, 250, 250);
+    border-bottom: 2px solid;
+}

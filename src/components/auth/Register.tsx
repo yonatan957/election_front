@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
+import './auth.css'
 
 export default function Register() {
   const [userName, setUserName]= useState('');
@@ -33,7 +34,7 @@ export default function Register() {
     }
   },[])
   return (
-    <div>
+    <div className='page'>
       <input type="text" placeholder='user name' onChange={(e)=>{setUserName(e.target.value)}} value={userName} />
       <input type="password" placeholder='password'  onChange={(e)=>{setPassword(e.target.value)}} value={password}/>
       <br />

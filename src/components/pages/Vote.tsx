@@ -14,8 +14,7 @@ export default function Vote() {
     dispatch(fetchcandidates())
   },[user])
   return (
-    <div>
-      <h1>votes</h1>
+    <div className='candidates'>
       {candidates? candidates!.map(c => <Candidate candidate={c} key={c._id}></Candidate>): null}
     </div>
   )

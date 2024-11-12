@@ -15,8 +15,7 @@ function App() {
     }
   },[])
   return (
-  <div>
-    {user? <p>{JSON.stringify(user)}</p>: ""}
+  <div className='app'>
     <Nav/>
     <Routes>
       <Route path='login' element={<Login/>}/>
