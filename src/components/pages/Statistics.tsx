@@ -9,10 +9,14 @@ export default function Statistics() {
   const navigate = useNavigate()
   const { candidates } = useAppSelector((state) => state.cadidates);
 
-  useEffect(()=>{
-    if(user?._id && !user?.isAdmin){navigate('/votes')}
-    if(!user?._id){navigate('/login')}
-  },[])
+  useEffect(() => {
+    if (!user?._id) {
+      navigate('/login');
+    } else if (!user?.isAdmin) {
+      navigate('/votes');
+    }
+  }, [user, navigate]);
+
   const config = {    
     xField: "name",
     yField: "votes",
@@ -28,6 +32,7 @@ export default function Statistics() {
     <h1>Statistics</h1>
 
     <ColumnChart
+      className='ColumnChart'
       {...config}
       height={400} 
       data={candidates!.map((c) => ({ name: c.name, votes: c.votes }))}

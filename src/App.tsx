@@ -4,16 +4,22 @@ import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import Vote from './components/pages/Vote'
 import Statistics from './components/pages/Statistics'
-import { useAppSelector } from './redux/store'
+import { addVote, useAppSelector } from './redux/store'
 import { useEffect } from 'react'
+import { socket } from './main'
+import { useDispatch } from 'react-redux'
 
 function App() {
   const {user} = useAppSelector((state)=> state.user)
+  const dispatch = useDispatch()
   useEffect(()=>{
     return ()=>{
       localStorage.removeItem("token")
     }
   },[])
+  socket.on("publishVote", (candidateid)=>{
+    dispatch(addVote(candidateid))
+  })
   return (
   <div className='app'>
     <Nav/>

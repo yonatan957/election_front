@@ -1,4 +1,5 @@
-import { useAppSelector } from "../../redux/store"
+import { socket } from "../../main"
+import { updateVote, useAppDispatch, useAppSelector } from "../../redux/store"
 import { ICandidate } from "../../types/candidate"
 import './pages.css'
 interface props{
@@ -7,6 +8,7 @@ interface props{
 
 export default function Candidate({candidate}:props) {
     const {user} = useAppSelector((state)=> state.user)
+    const dispatch = useAppDispatch()
     const vote = async()=>{
       try {
         const response = await fetch("http://localhost:2222/api/candidates/vote",{
@@ -18,7 +20,8 @@ export default function Candidate({candidate}:props) {
           body:JSON.stringify({candidate_id:candidate._id})
         })
         if(!response.ok)throw new Error("faild to vote")
-        
+        socket.emit('newVote',{candidate_id:candidate._id})
+        dispatch(updateVote({hasVoted:true, votedFor:candidate._id}))
       } catch (error) {
         console.log((error as Error).message)
       }

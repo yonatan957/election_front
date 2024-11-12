@@ -19,3 +19,12 @@ export interface candidatesState{
     status:DataStatus
     candidates: ICandidate[] | null
 }
+
+export interface addVote{
+  candidate_id:string
+}
+
+export interface updateVote{
+  hasVoted:boolean,
+  votedFor:string | null
+}
